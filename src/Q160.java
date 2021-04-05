@@ -38,9 +38,6 @@
  * 解释：这两个链表不相交，因此返回 null。
  *
  * <p>
- * 来源：力扣（LeetCode）
- * 链接：https://leetcode-cn.com/problems/intersection-of-two-linked-lists
- * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class Q160 {
     // 内部类
@@ -57,7 +54,20 @@ public class Q160 {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         ListNode h1 = headA;
         ListNode h2 = headB;
-        return null;
+        while (h1 != h2) {
+            if (h1 == null) {
+                h1 = headB;
+            } else {
+                h1 = h1.next;
+
+            }
+            if (h2 == null) {
+                h2 = headA;
+            } else {
+                h2 = h2.next;
+            }
+        }
+        return h1;
     }
 
 
@@ -70,12 +80,20 @@ public class Q160 {
         ListNode l2 = new ListNode(nums2[0]);
         ListNode headB = l2;
 
-        for (int i = 1; i < nums1.length; i++) {
+        for (int i = 1; i < 2; i++) {
             l1.next = new ListNode(nums1[i]);
             l1 = l1.next;
         }
-        for (int i = 1; i < nums2.length; i++) {
+        for (int i = 1; i < 3; i++) {
             l2.next = new ListNode(nums2[i]);
+            l2 = l2.next;
+        }
+
+        for (int i = 2; i < nums1.length; i++) {
+            ListNode temp = new ListNode(nums1[i]);
+            l1.next = temp;
+            l1 = l1.next;
+            l2.next = temp;
             l2 = l2.next;
         }
 

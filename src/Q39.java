@@ -33,37 +33,40 @@ import java.util.*;
 public class Q39 {
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        int len = candidates.length;
         List<List<Integer>> ans = new ArrayList<>();
-        if (candidates.length == 0) {
+        if (len == 0) {
             return ans;
         }
-        if (candidates.length == 1) {
-            List<Integer> list = new ArrayList<>();
-            list.add(candidates[0]);
-            ans.add(list);
-            return ans;
-        }
-        int sum = 0;
-        int i = 0;
-        Stack<Integer> stack = new Stack<>();
-        dfs(i, stack, sum, target, ans, candidates);
-
+        Stack<Integer> path = new Stack<>(); // 树路径
+        boolean[] used = new boolean[len]; //是否访问
+        dfs(candidates, ans, 0, len, used, path, target);
         return ans;
     }
 
-    private void dfs(int i, Stack<Integer> stack, int sum, int target, List<List<Integer>> ans, int[] candidates) {
-        if (sum >= target) { //结束递归
-            if (sum == target) {
-                ans.add(new ArrayList<>(stack));
-            }
+    private int sum(List<Integer> res) {
+        int s = 0;
+        for (Integer re : res) {
+            s += re;
+        }
+        return s;
+    }
+
+    private void dfs(int[] nums, List<List<Integer>> ans, int depth, int len, boolean[] used, Stack<Integer> path, int target) {
+        if (sum(new ArrayList<>(path)) == target) { //树深最大
+            ans.add(new ArrayList<>(path));
             return;
         }
-        for (int j = i; j < candidates.length; j++) { // 枚举当前可选的数，从start开始
-            stack.push(candidates[j]);          // 选这个数
-            dfs(j, stack, sum + candidates[i], target, ans, candidates); // 基于此，继续选择，传i，下次就不会选到i左边的数
-            stack.pop();   // 撤销选择，回到选择candidates[i]之前的状态，继续尝试选同层右边的数
+        for (int i = 0; i < len; i++) {
+            if (used[i]) { // 如果当前数已尽被访问
+                continue;
+            }
+            path.add(nums[i]);
+            used[i] = true;
+            dfs(nums, ans, depth + 1, len, used, path, target);
+            path.pop();
+            used[i] = false;
         }
-
     }
 
 

@@ -32,8 +32,8 @@ public class Q101 {
 
         treeNode.right.right = new TreeNode(3);
 
-        Q101 q101 = new Q101();
-        boolean ans = q101.isSymmetric(treeNode);
+        Q101 q = new Q101();
+        boolean ans = q.isSymmetric(treeNode);
         System.out.println(ans);
     }
 }
